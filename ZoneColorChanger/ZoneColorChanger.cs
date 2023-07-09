@@ -98,12 +98,12 @@ namespace ZoneColorChanger
 
 		public void ShowUUIButton()
 		{
-			customButton.Button.Show();
+			customButton.Button?.Show();
 		}
 
 		public void HideUUIButton()
 		{
-			customButton.Button.Hide();
+			customButton.Button?.Hide();
 		}
 
 		public void Update()
@@ -124,17 +124,12 @@ namespace ZoneColorChanger
 			}
 		}
 
-		public void UpdateUUIButtonStatus()
-		{
-			customButton.IsPressed = mainUIPanel.isVisible;
-		}
-
 		public void UpdateUUIButtonStatus(bool isVisible)
 		{
 			customButton.IsPressed = isVisible;
 		}
 
-		public bool ToggleUIPanelVisibility()
+		private bool ToggleUIPanelVisibility()
 		{
 			return mainUIPanel.ToggleVisibility();
 		}

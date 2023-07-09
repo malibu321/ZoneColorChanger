@@ -8,7 +8,7 @@ namespace ZoneColorChanger
 {
 	public class ModInfo : IUserMod
 	{
-		public static readonly string Version = "0.2";
+		public static readonly string Version = "0.3";
 
 		public static string settingsFileName = "ZoneColorChanger";
 		public static readonly SavedInputKey ToggleUIShortcut = new SavedInputKey("toggleUIShortcut", settingsFileName, SavedInputKey.Encode(KeyCode.K, true, false, false), true);

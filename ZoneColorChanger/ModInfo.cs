@@ -11,7 +11,7 @@ namespace ZoneColorChanger {
 		public static string settingsFileName = "ZoneColorChanger";
 		public static readonly SavedInputKey ToggleUIShortcut = new SavedInputKey("toggleUIShortcut", settingsFileName, SavedInputKey.Encode(KeyCode.K, true, false, false), true);
 
-		public static readonly SettingsBool ShowUUIButton = new SettingsBool("Show UUI Button", "",  "showUUIButton", false);
+		public static readonly SettingsBool ShowUUIButton = new SettingsBool("Show UUI Button", "",  "showUUIButton", true);
 
 		public static readonly Vector2 defaultPanelPosition = new Vector2(85, 10);
 		public static readonly SavedInt savedPanelPositionX = new SavedInt("panelPositionX", settingsFileName, (int)defaultPanelPosition.x, true);

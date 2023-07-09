@@ -48,10 +48,10 @@ namespace ZoneColorChanger {
 			ShowUUIButton.Draw(group, (b) => {
 				//Debug.Log("Setting Show UUI Button is now " + ShowUUIButton.value);
 				if(ShowUUIButton.value) {
-					ZoneColorChanger.Instance.ShowUUIButton();
+					ZoneColorChanger.Instance?.ShowUUIButton();
 				}
 				else {
-					ZoneColorChanger.Instance.HideUUIButton();
+					ZoneColorChanger.Instance?.HideUUIButton();
 				}
 			});
 		}

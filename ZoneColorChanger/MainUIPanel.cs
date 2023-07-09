@@ -1,12 +1,10 @@
-﻿using ColossalFramework;
-using ColossalFramework.UI;
-using ICities;
+﻿using ColossalFramework.UI;
 using UnityEngine;
-using static System.Net.Mime.MediaTypeNames;
 
-namespace ZoneColorChanger {
-	public class MainUIPanel : UIPanel {
-
+namespace ZoneColorChanger
+{
+	public class MainUIPanel : UIPanel
+	{
 		private UIDragHandle dragHandle;
 
 		ColorPickerPanel lowResColorPanel;
@@ -30,12 +28,14 @@ namespace ZoneColorChanger {
 			AddZoneColorPickers(container); // is now in the panel class
 		*/
 
-		public override void Start() {
+		public override void Start()
+		{
 			isVisible = false;
 
 			absolutePosition = new Vector3(ModInfo.savedPanelPositionX.value, ModInfo.savedPanelPositionY.value);
 
-			eventPositionChanged += (c, p) => { // again thanks Roundabout Builder
+			eventPositionChanged += (c, p) =>
+			{ // again thanks Roundabout Builder
 				if (absolutePosition.x < 0)
 					absolutePosition = ModInfo.defaultPanelPosition;
 
@@ -49,7 +49,6 @@ namespace ZoneColorChanger {
 				ModInfo.savedPanelPositionY.value = (int)absolutePosition.y;
 			};
 
-
 			dragHandle = (UIDragHandle)this.AddUIComponent(typeof(UIDragHandle));
 
 			this.backgroundSprite = "GenericPanel";
@@ -61,7 +60,32 @@ namespace ZoneColorChanger {
 			this.Hide();
 		}
 
-		private void AddCloseButton(UIPanel container) {
+		public void saveButtonClick(UIComponent component, UIMouseEventParameter eventParam)
+		{
+			Utils.SaveColors();
+		}
+
+		public void loadButtonClick(UIComponent component, UIMouseEventParameter eventParam)
+		{
+			Utils.LoadColors();
+			ShowCurrentZoneColorsInColorPickers();
+		}
+
+		public void resetButtonClick(UIComponent component, UIMouseEventParameter eventParam)
+		{
+			Debug.Log("reset Button Click");
+			Utils.ResetToDefaultColors();
+			ShowCurrentZoneColorsInColorPickers();
+		}
+
+		public void CloseButtonClick(UIComponent component, UIMouseEventParameter eventParam)
+		{
+			ToggleVisibility();
+			ZoneColorChanger.Instance.UpdateUUIButtonStatus(isVisible);
+		}
+
+		private void AddCloseButton(UIPanel container)
+		{
 			var width = 12;
 			var height = 12;
 			var border_margin = 2; // button is anchored top right
@@ -70,14 +94,14 @@ namespace ZoneColorChanger {
 			UIButton closeButton = CreateButton(container, width, height);
 			closeButton.text = "x";
 			closeButton.textScale = 0.7f;
-			//UIButton closeButton = container.AddUIComponent<CloseButton>();
 			closeButton.transform.parent = container.transform;
-			
-			closeButton.relativePosition = new Vector3(xPos, yPos);
-            closeButton.eventClick += CloseButtonClick;
-        }
 
-		private void AddZoneColorPickers(UIPanel container) {
+			closeButton.relativePosition = new Vector3(xPos, yPos);
+			closeButton.eventClick += CloseButtonClick;
+		}
+
+		private void AddZoneColorPickers(UIPanel container)
+		{
 			int spriteWidth = 50;
 
 			int xPos = 10;
@@ -131,7 +155,7 @@ namespace ZoneColorChanger {
 			saveButton.eventClick += saveButtonClick;
 			saveButton.textScale = 0.85f;
 
-			xPos += spriteWidth+8;
+			xPos += spriteWidth + 8;
 
 			UIButton loadButton = CreateButton(container);
 			loadButton.transform.parent = container.transform;
@@ -140,7 +164,7 @@ namespace ZoneColorChanger {
 			loadButton.eventClick += loadButtonClick;
 			loadButton.textScale = 0.85f;
 
-			xPos += spriteWidth+8;
+			xPos += spriteWidth + 8;
 
 			UIButton resetButton = CreateButton(container);
 			resetButton.transform.parent = container.transform;
@@ -150,7 +174,8 @@ namespace ZoneColorChanger {
 			resetButton.textScale = 0.85f;
 		}
 
-		public static UIButton CreateButton(UIComponent parent) { // thanks SamsamTS
+		public static UIButton CreateButton(UIComponent parent)
+		{ // thanks SamsamTS
 			UIButton button = (UIButton)parent.AddUIComponent<UIButton>();
 			button.width = 50;
 			button.height = 31;
@@ -162,50 +187,34 @@ namespace ZoneColorChanger {
 			return button;
 		}
 
-        public static UIButton CreateButton(UIComponent parent, float width, float height)
-        { // thanks SamsamTS
-            UIButton button = (UIButton)parent.AddUIComponent<UIButton>();
-            button.width = width;
-            button.height = height;
-            button.normalBgSprite = "ButtonMenu";
-            button.hoveredBgSprite = "ButtonMenuHovered";
-            button.pressedBgSprite = "ButtonMenuPressed";
-            button.canFocus = false;
-            return button;
-        }
-
-        public void saveButtonClick(UIComponent component, UIMouseEventParameter eventParam) {
-			Utils.SaveColors();
+		public static UIButton CreateButton(UIComponent parent, float width, float height)
+		{ // thanks SamsamTS
+			UIButton button = (UIButton)parent.AddUIComponent<UIButton>();
+			button.width = width;
+			button.height = height;
+			button.normalBgSprite = "ButtonMenu";
+			button.hoveredBgSprite = "ButtonMenuHovered";
+			button.pressedBgSprite = "ButtonMenuPressed";
+			button.canFocus = false;
+			return button;
 		}
 
-		public void loadButtonClick(UIComponent component, UIMouseEventParameter eventParam) {
-			Utils.LoadColors();
-			ShowCurrentZoneColorsInColorPickers();
-		}
-
-		public void resetButtonClick(UIComponent component, UIMouseEventParameter eventParam) {
-			Debug.Log("reset Button Click");
-			Utils.ResetToDefaultColors();
-			ShowCurrentZoneColorsInColorPickers();
-		}
-
-		public void CloseButtonClick(UIComponent component, UIMouseEventParameter eventParam) {
-			ToggleVisibility();
-			ZoneColorChanger.Instance.UpdateUUIButtonStatus(isVisible);
-		}
-
-		public bool ToggleVisibility() { 
-			if(isVisible) {
+		public bool ToggleVisibility()
+		{
+			if (isVisible)
+			{
 				Hide();
 				return isVisible;
 			}
-			else {
+			else
+			{
 				Show();
 				return isVisible;
 			}
 		}
 
-		private void ShowCurrentZoneColorsInColorPickers() { 
+		private void ShowCurrentZoneColorsInColorPickers()
+		{
 			lowResColorPanel.UpdateCurrentZoneColor();
 			highResColorPanel.UpdateCurrentZoneColor();
 			lowComColorPanel.UpdateCurrentZoneColor();

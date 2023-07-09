@@ -1,8 +1,10 @@
 ﻿using ColossalFramework;
 using UnityEngine;
 
-namespace ZoneColorChanger {
-	class Utils {
+namespace ZoneColorChanger
+{
+	class Utils
+	{
 		/*  
 			Unzoned,
 			Distant,
@@ -16,35 +18,40 @@ namespace ZoneColorChanger {
 
 		private static Color[] defaultColors;
 
-		public static void Init() {
-		
+		public static void Init()
+		{
+
 		}
 
-		public static void SetZoneColor(Color color, int index) {
+		public static void SetZoneColor(Color color, int index)
+		{
 			Singleton<ZoneManager>.instance.m_properties.m_zoneColors[index] = color;
 			Shader.SetGlobalColor("_ZoneColor" + index, color.linear);
 		}
 
-		public static bool SetZoneColors(Color[] colors) {
+		public static bool SetZoneColors(Color[] colors)
+		{
 			int colorsLength = colors.Length;
-			if (colorsLength != 8) {
+			if (colorsLength != 8)
+			{
 				return false;
 			}
 
-			for (int i = 0; i < colorsLength; i++) {
+			for (int i = 0; i < colorsLength; i++)
+			{
 				Singleton<ZoneManager>.instance.m_properties.m_zoneColors[i] = colors[i];
 				Shader.SetGlobalColor("_ZoneColor" + i, colors[i].linear);
 			}
 			return true;
 		}
 
-		public static void ResetToDefaultColors() {
+		public static void ResetToDefaultColors()
+		{
 			// ZoneColourTrigger.Defaultcolours didn't always work, no idea why. Hardcoded default colors should work
 			// as long as they stay the same in the game. 
 
 			Debug.Log("reset to default colors...");
 			defaultColors = Singleton<ZoneManager>.instance.m_properties.m_zoneColors; // I don't understand this, without it doesn't work
-																						
 
 			defaultColors[0] = new Color(1f, 1f, 1f, 0.01568628f);
 			defaultColors[1] = new Color(1f, 1f, 1f, 0.003921569f);
@@ -58,20 +65,25 @@ namespace ZoneColorChanger {
 			SetZoneColors(defaultColors);
 		}
 
-		public static void SaveColors() {
+		public static void SaveColors()
+		{
 			Debug.Log("saving colors...");
 			ColorProfileConfigFile.SavedColors = Singleton<ZoneManager>.instance.m_properties.m_zoneColors;
 			ColorProfileConfigFile.SaveColors();
 		}
 
-		public static void LoadColors() {
-			if(ColorProfileConfigFile.LoadSavedColors()) {
+		public static void LoadColors()
+		{
+			if (ColorProfileConfigFile.LoadSavedColors())
+			{
 				bool success = SetZoneColors(ColorProfileConfigFile.SavedColors);
 
-				if(success) {
+				if (success)
+				{
 					Debug.Log("Saved colors successfully applied.");
 				}
-				else {
+				else
+				{
 					Debug.Log("Saved colors failed to apply.");
 				}
 			}
